@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Administración | Catálogo Alegría</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --dorado: #bf9b30;
+            --dorado-luz: #d4b96a;
+            --chocolate-negro: #1a110a; /* Fondo base */
+            --chocolate-card: #3d2b1f; /* MODIFICADO: Tono más claro para el contenedor */
+            --crema-suave: #f1ede4;    /* Texto */
+            --gris-borde: rgba(191, 155, 48, 0.15); /* Borde dorado translúcido */
+        }
+
+        body { 
+            background-color: var(--chocolate-negro); 
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--crema-suave);
+        }
+
+        .preview-img { 
+            max-height: 200px; 
+            object-fit: cover; 
+            border-radius: 1.5rem; 
+            display: none; 
+            margin: 15px auto; 
+            border: 4px solid var(--dorado); 
+            box-shadow: 0 10px 25px -5px rgba(191,155,48,0.4); 
+        }
+
+        label { 
+            font-size: 0.75rem; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            color: var(--crema-suave); 
+            margin-left: 0.5rem; 
+            display: block; 
+            margin-bottom: 0.3rem; 
+            letter-spacing: 0.05em; 
+            opacity: 0.7;
+        }
+
+        .btn-gold { 
+            background-color: var(--dorado); 
+            color: var(--chocolate-negro); 
+        }
+        .btn-gold:hover { 
+            background-color: var(--dorado-luz); 
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 1rem;
+            background-color: #4d3627; /* MODIFICADO: Tono chocolate más claro para las cajas */
+            border-radius: 1rem;
+            border: 1px solid var(--gris-borde);
+            color: var(--crema-suave);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            background-color: #5d4231;
+            border-color: var(--dorado);
+            box-shadow: 0 0 0 4px rgba(191, 155, 48, 0.2);
+        }
+        
+        /* Estilos para el inventario cargado dinámicamente */
+        #lista-admin .bg-item { background-color: #3d2b1f !important; border: 1px solid rgba(191, 155, 48, 0.1) !important; }
+        #lista-admin p { color: #f1ede4 !important; }
+        #lista-admin span.text-gold { color: #bf9b30 !important; }
+    </style>
+</head>
+<body class="p-8">
+    <div class="max-w-2xl mx-auto bg-[#3d2b1f] p-12 rounded-[3.5rem] shadow-2xl border border-[#bf9b30]/10">
+        <div class="text-center mb-10 border-b border-[#bf9b30]/10 pb-10">
+            <img src="img/logo.png" alt="Logo" class="w-20 mx-auto mb-4 drop-shadow-lg">
+            <h2 id="form-title" class="text-3xl font-bold text-[#f1ede4] tracking-tight leading-tight">Editor de Cacao Profundo</h2>
+            <div class="mt-2">
+                <a href="index.html" class="text-[#bf9b30] font-bold hover:underline text-[10px] uppercase tracking-widest">Regresar al Catálogo Público</a>
+            </div>
+        </div>
+
+        <form id="form-producto" class="space-y-6">
+            <input type="hidden" id="edit-id" value="">
+            
+            <div>
+                <label for="nombre">Nombre de la Delicia Amarga</label>
+                <input type="text" id="nombre" placeholder="Ej. Bombón de Avellana Obsidiana" class="input-field" required>
+            </div>
+
+            <div>
+                <label for="desc">Descripción Sensorial Profunda</label>
+                <textarea id="desc" placeholder="Describe la experiencia de cata y notas..." class="input-field h-28" required></textarea>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-6">
+                <div>
+                    <label for="precio">Precio Unitario ($)</label>
+                    <input type="number" id="precio" placeholder="0.00" class="input-field" required>
+                </div>
+                <div>
+                    <label for="categoria">Categoría</label>
+                    <select id="categoria" class="input-field font-bold text-[#f1ede4]">
+                        <option value="Oscuro">Oscuro</option>
+                        <option value="Blanco">Blanco</option>
+                        <option value="Relleno">Rellenos</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div>
+                    <label for="stock">Stock Disponible</label>
+                    <input type="number" id="stock" placeholder="Cantidad" class="input-field">
+                </div>
+                <div>
+                    <label for="etiqueta">Etiqueta Especial</label>
+                    <select id="etiqueta" class="input-field font-bold text-[#f1ede4]">
+                        <option value="Ninguna">Sin Etiqueta</option>
+                        <option value="Nuevo">Producto Nuevo</option>
+                        <option value="Popular">Más Vendido</option>
+                        <option value="Oferta">Oferta Especial</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label>Imagen del Chocolate</label>
+                <img id="img-preview" class="preview-img" src="" alt="Vista previa">
+                <div class="relative border-2 border-dashed border-[#bf9b30]/20 rounded-3xl p-8 text-center hover:border-[#bf9b30] hover:bg-[#bf9b30]/5 cursor-pointer transition group bg-[#1a110a]">
+                    <input type="file" id="img-file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                    <div class="text-[#f1ede4]/40 group-hover:text-[#bf9b30]">
+                        <p id="img-label" class="font-bold text-xs uppercase tracking-widest">Sincronizar Fotografía</p>
+                        <p class="text-[10px] mt-1">Formatos sugeridos: JPG o PNG</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex gap-4 pt-4">
+                <button type="submit" id="btn-submit" class="flex-1 btn-gold py-5 rounded-2xl font-bold shadow-xl active:scale-95 transition-all uppercase text-[11px] tracking-widest">Sincronizar en Inventario</button>
+                <button type="button" id="btn-cancel" onclick="resetForm()" class="hidden bg-[#1a110a] text-[#f1ede4]/60 px-8 py-5 rounded-2xl font-bold hover:bg-black transition uppercase text-xs tracking-widest">Cancelar</button>
+            </div>
+        </form>
+
+        <div class="mt-16 border-t border-[#bf9b30]/10 pt-10">
+            <h3 id="admin-inventory-title" class="font-bold text-[#f1ede4] mb-6 uppercase text-xs tracking-[0.3em] leading-tight">Gestión de Stock Digital</h3>
+            <div class="relative mb-8">
+                <input type="text" id="admin-search" placeholder="Filtrar por nombre..." class="input-field text-sm border-0 bg-black/30 shadow-inner">
+            </div>
+            <div id="lista-admin" class="space-y-4"></div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

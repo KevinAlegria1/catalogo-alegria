@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Alegría | Chocolatería de Autor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Nueva Paleta Obsidiana: Chocolate Negro y Oro */
+        :root {
+            --dorado: #bf9b30;
+            --dorado-luz: #d4b96a;
+            --chocolate-negro: #1a110a; /* Fondo absoluto amargo */
+            --chocolate-card: #3d2b1f; /* MODIFICADO: Tono más claro para resaltar tarjetas y cajas */
+            --crema-suave: #f1ede4;    /* Texto principal */
+            --gris-borde: rgba(191, 155, 48, 0.15); /* Borde dorado translúcido */
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--chocolate-negro); 
+            color: var(--crema-suave); 
+            scroll-behavior: smooth; 
+        }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        
+        /* Glassmorphism adaptado al tema Oscuro */
+        .glass { 
+            background: rgba(26, 17, 10, 0.7); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid var(--gris-borde); 
+        }
+
+        /* Estilo para el botón de categoría activo */
+        .active-category {
+            background-color: var(--dorado) !important;
+            color: var(--chocolate-negro) !important;
+            border-color: var(--dorado) !important;
+            box-shadow: 0 0 15px rgba(191, 155, 48, 0.4);
+        }
+
+        /* Animación suave */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.8s ease-out forwards; }
+
+        /* Sombra de lujo para tarjetas sobre fondo oscuro */
+        .card-shadow {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background: var(--chocolate-card);
+            border-radius: 2.5rem;
+            border: 1px solid var(--gris-borde);
+        }
+        .card-shadow:hover {
+            box-shadow: 0 35px 60px -15px rgba(191, 155, 48, 0.3);
+            border-color: var(--dorado);
+        }
+        #catalogo-grid {
+            gap: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="sticky top-0 z-50 p-6 flex justify-between items-center glass border-b border-[#bf9b30]/10">
+        <div class="flex items-center gap-3">
+            <img src="img/Gemini_Generated_Image_i7w6jai7w6jai7w6.png" alt="Logo Alegría" class="w-12 h-12 object-contain">
+            <h1 class="text-xl font-serif text-[#f1ede4] tracking-widest hidden sm:block">
+                Catálogo <span class="text-[#bf9b30]">Alegría</span>
+            </h1>
+        </div>
+
+        <div class="flex gap-8 text-[10px] uppercase tracking-[0.3em] font-bold text-[#f1ede4]/60">
+            <a href="#catalogo" class="hover:text-[#bf9b30] transition">Colección</a>
+            <a href="#historia" class="hover:text-[#bf9b30] transition">Origen</a>
+            <a href="#contacto" class="hover:text-[#bf9b30] transition">Contacto</a>
+        </div>
+    </nav>
+
+    <header class="relative h-[80vh] flex items-center justify-center overflow-hidden bg-black/30">
+        <div class="absolute top-[-10%] right-[-5%] w-96 h-96 bg-[#bf9b30]/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-[-10%] left-[-5%] w-80 h-80 bg-[#d4b96a]/5 rounded-full blur-3xl"></div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl">
+            <img src="img/Gemini_Generated_Image_i7w6jai7w6jai7w6.png" alt="Alegría Chocolate" class="w-64 mx-auto mb-10 animate-fade-in drop-shadow-lg">
+            
+            <span class="text-[#bf9b30] uppercase tracking-[0.6em] text-[10px] font-bold mb-4 block animate-fade-in" style="animation-delay: 200ms;">Chocolatería de Autor</span>
+            <h2 class="text-5xl md:text-7xl font-serif text-[#f1ede4] mb-6 italic animate-fade-in" style="animation-delay: 400ms;">Pureza y Tradición</h2>
+            <p class="text-[#f1ede4]/70 max-w-xl mx-auto text-sm leading-relaxed animate-fade-in" style="animation-delay: 600ms;">
+                Inspirado en los tonos profundos de la tierra y el cacao puro. Elaborado artesanalmente en el corazón del Estado de México.
+            </p>
+        </div>
+    </header>
+
+    <section id="catalogo" class="py-24 text-center">
+        <h2 class="text-4xl font-serif text-[#f1ede4] mb-12 italic">Nuestra Selección</h2>
+        
+        <div id="filtros" class="flex flex-wrap justify-center gap-4 mb-16 px-4">
+            <button onclick="cambiarCategoria('Todos', this)" class="btn-categoria px-8 py-2 rounded-full active-category shadow-md hover:bg-[#d4b96a] transition font-bold text-[10px] uppercase tracking-widest">Todos</button>
+            <button onclick="cambiarCategoria('Oscuro', this)" class="btn-categoria px-8 py-2 rounded-full glass text-[#f1ede4] hover:bg-[#3d2b1f] transition text-[10px] font-bold uppercase tracking-widest">Oscuro</button>
+            <button onclick="cambiarCategoria('Blanco', this)" class="btn-categoria px-8 py-2 rounded-full glass text-[#f1ede4] hover:bg-[#3d2b1f] transition text-[10px] font-bold uppercase tracking-widest">Blanco</button>
+            <button onclick="cambiarCategoria('Relleno', this)" class="btn-categoria px-8 py-2 rounded-full glass text-[#f1ede4] hover:bg-[#3d2b1f] transition text-[10px] font-bold uppercase tracking-widest">Rellenos</button>
+        </div>
+
+        <div class="max-w-md mx-auto mb-20 relative px-4">
+            <input type="text" id="catalogo-search" placeholder="Buscar una delicia amarga..." 
+                   class="w-full bg-[#3d2b1f] p-5 rounded-2xl text-sm border border-[#bf9b30]/10 outline-none focus:border-[#bf9b30] transition-all text-center text-[#f1ede4] shadow-inner">
+        </div>
+
+        <main id="catalogo-grid" class="max-w-[1750px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-10 p-8"></main>
+    </section>
+
+    <section id="historia" class="py-24 max-w-7xl mx-auto px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="md:col-span-2 bg-[#3d2b1f] p-16 rounded-[3rem] flex flex-col justify-end min-h-[450px] shadow-sm border border-[#bf9b30]/10">
+                <span class="text-[#bf9b30] uppercase tracking-widest text-[10px] font-black mb-4">Metepec · Toluca</span>
+                <h4 class="text-5xl font-serif text-[#f1ede4] mb-6 italic tracking-wide">Inspiración Obsidiana</h4>
+                <p class="text-[#f1ede4]/60 leading-relaxed text-lg italic">"Creamos chocolates que reflejan la profundidad de nuestras raíces, usando solo el cacao más puro y honesto."</p>
+            </div>
+            <div class="bg-[#1a110a] p-12 rounded-[3rem] flex flex-col justify-center text-[#bf9b30] text-center shadow-2xl border-4 border-[#bf9b30]/20">
+                <span class="text-7xl font-serif mb-2 font-bold block text-[#bf9b30]">100%</span>
+                <p class="font-bold uppercase tracking-[0.2em] text-[10px] text-[#f1ede4]">Puro Cacao Mexicano</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacto" class="py-24 text-center bg-black/30 border-t border-[#bf9b30]/10">
+        <img src="img/logo.png" alt="Alegría" class="w-20 mx-auto mb-8 opacity-80">
+        <p class="text-[#bf9b30] text-[10px] uppercase tracking-[0.4em] mb-4 font-black">Pedidos Especiales</p>
+        <h3 class="text-2xl font-serif text-[#f1ede4] mb-12 italic">alegria.chocolate@contacto.com</h3>
+        <p class="text-[9px] text-[#f1ede4]/30 uppercase tracking-[0.5em]">© 2026 Catálogo Alegría | Estado de México</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
